@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LUXE — Premium Fashion & Electronics Store. Shop the latest trends and cutting-edge tech.">
+<title>LUXE — Fashion & Electronics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #18181b; }
+  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+  ::selection { background: rgba(245,158,11,0.3); color: #fde68a; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 5px rgba(245,158,11,0.3); } 50% { box-shadow: 0 0 20px rgba(245,158,11,0.6); } }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  @keyframes cartBounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+  @keyframes heroText { from { opacity:0; transform:translateY(40px); filter:blur(8px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+  @keyframes dropIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+  .animate-fade { animation: fadeIn 0.7s ease-out forwards; }
+  .animate-slide-down { animation: slideDown 0.5s ease-out forwards; }
+  .animate-slide-right { animation: slideRight 0.6s ease-out forwards; }
+  .animate-scale { animation: scaleIn 0.4s ease-out forwards; }
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+  .animate-marquee { animation: marquee 30s linear infinite; }
+  .animate-cart-bounce { animation: cartBounce 0.4s ease; }
+  .animate-hero { animation: heroText 1s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .animate-drop { animation: dropIn 0.25s ease-out forwards; }
+  .delay-100 { animation-delay: 0.1s; opacity: 0; }
+  .delay-200 { animation-delay: 0.2s; opacity: 0; }
+  .delay-300 { animation-delay: 0.3s; opacity: 0; }
+  .delay-400 { animation-delay: 0.4s; opacity: 0; }
+  .delay-500 { animation-delay: 0.5s; opacity: 0; }
+
+  .product-card { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .product-card:hover { transform: translateY(-8px); }
+  .product-card:hover .card-img { transform: scale(1.08); }
+  .product-card:hover .card-overlay { opacity: 1; }
+  .product-card:hover .quick-actions { transform: translateY(0); opacity: 1; }
+
+  .card-img { transition: transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+  .card-overlay { transition: opacity 0.4s ease; }
+  .quick-actions { transform: translateY(10px); opacity: 0; transition: all 0.3s ease 0.1s; }
+
+  .nav-link { position: relative; }
+  .nav-link::after { content:''; position:absolute; bottom:-2px; left:50%; width:0; height:1px; background:#f59e0b; transition:all 0.3s ease; transform:translateX(-50%); }
+  .nav-link:hover::after, .nav-link.active::after { width:100%; }
+
+  .mobile-nav-link { transition: all 0.15s ease; }
+  .mobile-nav-link:hover, .mobile-nav-link.active { background: rgba(245,158,11,0.08); color: #f59e0b; }
+
+  .page { display:none; opacity:0; }
+  .page.active { display:block; animation: fadeIn 0.5s ease-out forwards; }
+
+  .modal-backdrop { transition: opacity 0.3s ease; }
+  .modal-content { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+
+  .sale-badge { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .gradient-text { background: linear-gradient(to right, #fbbf24, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .btn-primary { background: white; color: #18181b; transition: all 0.2s ease; }
+  .btn-primary:hover { background: #f4f4f5; transform: translateY(-1px); box-shadow: 0 10px 25px -5px rgba(255,255,255,0.15); }
+  .btn-amber { background: linear-gradient(135deg, #f59e0b, #d97706); color: #18181b; transition: all 0.2s ease; }
+  .btn-amber:hover { transform: translateY(-1px); box-shadow: 0 10px 25px -5px rgba(245,158,11,0.3); }
+
+  .star-rating iconify-icon { color: #3f3f46; }
+  .star-rating .filled { color: #f59e0b; }
+
+  .toast { animation: slideDown 0.4s ease-out, fadeIn 0.4s ease-out; }
+
+  input:focus, select:focus, textarea:focus { outline: none; border-color: rgba(245,158,11,0.5); box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
+
+  .category-card { transition: all 0.4s ease; }
+  .category-card:hover { transform: scale(1.03); }
+  .category-card:hover .cat-overlay { background: rgba(245,158,11,0.25); }
+
+  .whatsapp-btn { animation: pulse-glow 2s ease-in-out infinite; }
+
+  .qty-btn { transition: all 0.15s ease; }
+  .qty-btn:hover { background: rgba(245,158,11,0.2); }
+
+  /* Mobile dropdown */
+  .mobile-dropdown { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, padding 0.35s ease;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .mobile-dropdown.open { 
+    max-height: 320px; 
+    opacity: 1;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+</style>
+</head>
+<body class="bg-[#09090b] text-white font-sans antialiased overflow-x-hidden">
+
+<!-- Toast Container -->
+<div id="toastContainer" class="fixed top-24 right-4 z-[100] flex flex-col gap-2"></div>
+
+<!-- Navigation -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="backdrop-filter:blur(12px); background:rgba(9,9,11,0.8);">
+  <div class="max-w-7xl mx-auto px-6">
+    <!-- Main Nav Row -->
+    <div class="h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" onclick="navigateTo('home')" class="flex items-center gap-2.5 group shrink-0">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+          <iconify-icon icon="lucide:gem" class="text-black text-lg"></iconify-icon>
+        </div>
+        <span class="text-xl font-serif font-bold tracking-tight">LUXE</span>
+      </a>
+
+      <!-- Desktop Nav Links (Center) -->
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="#" onclick="navigateTo('home')" class="nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors duration-150 px-4 py-2 active" data-nav="home">Home</a>
+        <a href="#" onclick="navigateTo('shop')" class="nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors duration-150 px-4 py-2" data-nav="shop">Shop</a>
+        <a href="#" onclick="navigateTo('about')" class="nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors duration-150 px-4 py-2" data-nav="about">About</a>
+        <a href="#" onclick="navigateTo('contact')" class="nav-link text-sm font-medium text-zinc-400 hover:text-white transition-colors duration-150 px-4 py-2" data-nav="contact">Contact</a>
+      </div>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Search Bar (Desktop) -->
+        <div class="hidden md:flex items-center relative">
+          <input id="searchInput" type="text" placeholder="Search products..." class="w-56 lg:w-64 h-10 bg-white/5 border border-white/10 rounded-full px-4 pr-10 text-sm text-white placeholder-zinc-500 transition-all duration-300 focus:w-72 lg:focus:w-80 focus:border-amber-500/30" onkeyup="handleSearch(event)">
+          <iconify-icon icon="lucide:search" class="absolute right-3 text-zinc-500 text-sm pointer-events-none"></iconify-icon>
+          <div id="searchResults" class="absolute top-12 left-0 right-0 bg-zinc-900 border border-white/10 rounded-xl overflow-hidden shadow-2xl hidden" style="backdrop-filter:blur(12px);"></div>
+        </div>
+
+        <!-- Mobile Search Toggle -->
+        <button onclick="toggleMobileSearch()" class="md:hidden w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+          <iconify-icon icon="lucide:search" class="text-zinc-400"></iconify-icon>
+        </button>
+
+        <!-- Wishlist -->
+        <button class="hidden sm:flex w-10 h-10 rounded-full bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 transition-colors relative">
+          <iconify-icon icon="lucide:heart" class="text-zinc-400"></iconify-icon>
+          <span id="wishlistCount" class="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-black text-[10px] font-bold rounded-full flex items-center justify-center hidden">0</span>
+        </button>
+
+        <!-- Cart -->
+        <button onclick="navigateTo('cart')" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors relative">
+          <iconify-icon icon="lucide:shopping-bag" class="text-zinc-400"></iconify-icon>
+          <span id="cartCount" class="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-black text-[10px] font-bold rounded-full flex items-center justify-center hidden">0</span>
+        </button>
+
+        <!-- User -->
+        <button onclick="openModal('authModal')" class="hidden sm:flex w-10 h-10 rounded-full bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 transition-colors">
+          <iconify-icon icon="lucide:user" class="text-zinc-400"></iconify-icon>
+        </button>
+
+        <!-- Mobile Hamburger -->
+        <button onclick="toggleMobileDropdown()" class="lg:hidden w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors" id="hamburgerBtn">
+          <iconify-icon id="menuIcon" icon="lucide:menu" class="text-zinc-400 transition-transform duration-300"></iconify-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Search (expandable) -->
+    <div id="mobileSearch" class="md:hidden overflow-hidden max-h-0 transition-all duration-300" style="opacity:0;">
+      <div class="pb-3">
+        <div class="relative">
+          <input type="text" placeholder="Search products..." class="w-full h-10 bg-white/5 border border-white/10 rounded-full px-4 pr-10 text-sm text-white placeholder-zinc-500" onkeyup="handleSearch(event)">
+          <iconify-icon icon="lucide:search" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none"></iconify-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Nav -->
+    <div id="mobileDropdown" class="mobile-dropdown lg:hidden border-t border-white/5">
+      <div class="grid grid-cols-2 gap-1 px-1">
+        <a href="#" onclick="navigateTo('home');closeMobileDropdown()" class="mobile-nav-link flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-zinc-300 text-sm font-medium active" data-mobnav="home">
+          <iconify-icon icon="lucide:home" class="text-base text-zinc-500"></iconify-icon> Home
+        </a>
+        <a href="#" onclick="navigateTo('shop');closeMobileDropdown()" class="mobile-nav-link flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-zinc-300 text-sm font-medium" data-mobnav="shop">
+          <iconify-icon icon="lucide:grid-3x3" class="text-base text-zinc-500"></iconify-icon> Shop
+        </a>
+        <a href="#" onclick="navigateTo('about');closeMobileDropdown()" class="mobile-nav-link flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-zinc-300 text-sm font-medium" data-mobnav="about">
+          <iconify-icon icon="lucide:info" class="text-base text-zinc-500"></iconify-icon> About
+        </a>
+        <a href="#" onclick="navigateTo('contact');closeMobileDropdown()" class="mobile-nav-link flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-zinc-300 text-sm font-medium" data-mobnav="contact">
+          <iconify-icon icon="lucide:mail" class="text-base text-zinc-500"></iconify-icon> Contact
+        </a>
+        <a href="#" onclick="navigateTo('cart');closeMobileDropdown()" class="mobile-nav-link flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-zinc-300 text-sm font-medium" data-mobnav="cart">
+          <iconify-icon icon="lucide:shopping-bag" class="text-base text-zinc-500"></iconify-icon> Cart
+          <span id="mobileCartCount" class="ml-auto text-[10px] bg-amber-500 text-black px-2 py-0.5 rounded-full font-bold hidden">0</span>
+        </a>
+        <a href="#" onclick="openModal('authModal');closeMobileDropdown()" class="mobile-nav-link flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-zinc-300 text-sm font-medium">
+          <iconify-icon icon="lucide:user" class="text-base text-zinc-500"></iconify-icon> Account
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="page-home" class="page active">
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://picsum.photos/seed/luxe-hero-fashion/1920/1080.jpg" alt="Hero" class="w-full h-full object-cover opacity-40 mix-blend-overlay">
+      <div class="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/70 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-transparent to-[#09090b]/80"></div>
+    </div>
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 pt-32 pb-20 w-full">
+      <div class="max-w-3xl">
+        <div class="animate-hero delay-100 inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-1.5 mb-6">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span class="text-amber-400 text-xs font-medium uppercase tracking-wider">Summer Sale — Up to 60% Off</span>
+        </div>
+
+        <h1 class="animate-hero delay-200 text-5xl md:text-7xl lg:text-8xl font-serif font-normal leading-[1.05] tracking-tight mb-6">
+          Discover<br>
+          <span class="gradient-text italic">Premium</span><br>
+          Style & Tech
+        </h1>
+
+        <p class="animate-hero delay-300 text-zinc-400 text-base md:text-lg font-light leading-relaxed max-w-xl mb-10">
+          Curated collections of fashion and electronics for the modern lifestyle. Elevate your everyday with pieces that speak to quality and innovation.
+        </p>
+
+        <div class="animate-hero delay-400 flex flex-wrap gap-4">
+          <button onclick="navigateTo('shop')" class="btn-primary px-8 py-3.5 rounded-full text-sm font-medium flex items-center gap-2">
+            Shop Collection <iconify-icon icon="lucide:arrow-right" class="text-base"></iconify-icon>
+          </button>
+          <button onclick="navigateTo('shop', {category:'electronics'})" class="px-8 py-3.5 rounded-full text-sm font-medium border border-white/10 hover:bg-white/5 transition-all duration-200 flex items-center gap-2">
+            <iconify-icon icon="lucide:zap" class="text-amber-500"></iconify-icon> Explore Tech
+          </button>
+        </div>
+
+        <div class="animate-hero delay-500 flex gap-10 mt-14 pt-8 border-t border-white/10">
+          <div>
+            <div class="text-2xl md:text-3xl font-serif">12K+</div>
+            <div class="text-xs text-zinc-500 mt-1 uppercase tracking-wider">Products</div>
+          </div>
+          <div>
+            <div class="text-2xl md:text-3xl font-serif">98%</div>
+            <div class="text-xs text-zinc-500 mt-1 uppercase tracking-wider">Satisfaction</div>
+          </div>
+          <div>
+            <div class="text-2xl md:text-3xl font-serif">50+</div>
+            <div class="text-xs text-zinc-500 mt-1 uppercase tracking-wider">Brands</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
+      <span class="text-[10px] text-zinc-600 uppercase tracking-widest">Scroll</span>
+      <iconify-icon icon="lucide:chevron-down" class="text-zinc-600"></iconify-icon>
+    </div>
+  </section>
+
+  <!-- Marquee Banner -->
+  <div class="border-y border-white/5 py-3 overflow-hidden bg-zinc-950/50">
+    <div class="animate-marquee flex whitespace-nowrap">
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:truck" class="text-amber-500/50"></iconify-icon> Free Shipping Over $99</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:shield-check" class="text-amber-500/50"></iconify-icon> Secure Payment</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:rotate-ccw" class="text-amber-500/50"></iconify-icon> 30-Day Returns</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:headphones" class="text-amber-500/50"></iconify-icon> 24/7 Support</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:award" class="text-amber-500/50"></iconify-icon> Authentic Products</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:truck" class="text-amber-500/50"></iconify-icon> Free Shipping Over $99</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:shield-check" class="text-amber-500/50"></iconify-icon> Secure Payment</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:rotate-ccw" class="text-amber-500/50"></iconify-icon> 30-Day Returns</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:headphones" class="text-amber-500/50"></iconify-icon> 24/7 Support</span>
+      <span class="mx-8 text-xs text-zinc-600 uppercase tracking-widest flex items-center gap-2"><iconify-icon icon="lucide:award" class="text-amber-500/50"></iconify-icon> Authentic Products</span>
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">Browse</span>
+        <h2 class="text-3xl md:text-5xl font-serif tracking-tight mt-3">Shop by Category</h2>
+        <p class="text-zinc-500 text-sm mt-3 max-w-md mx-auto">Explore our curated collections across fashion and electronics</p>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div onclick="navigateTo('shop',{category:'clothing'})" class="category-card relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4] group">
+          <img src="https://picsum.photos/seed/cat-clothing/600/800.jpg" class="w-full h-full object-cover" alt="Clothing">
+          <div class="cat-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5">
+            <h3 class="font-serif text-lg">Clothing</h3>
+            <p class="text-zinc-400 text-xs mt-1">240+ items</p>
+          </div>
+        </div>
+        <div onclick="navigateTo('shop',{category:'accessories'})" class="category-card relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4] group">
+          <img src="https://picsum.photos/seed/cat-accessories/600/800.jpg" class="w-full h-full object-cover" alt="Accessories">
+          <div class="cat-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5">
+            <h3 class="font-serif text-lg">Accessories</h3>
+            <p class="text-zinc-400 text-xs mt-1">180+ items</p>
+          </div>
+        </div>
+        <div onclick="navigateTo('shop',{category:'electronics'})" class="category-card relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4] group">
+          <img src="https://picsum.photos/seed/cat-electronics2/600/800.jpg" class="w-full h-full object-cover" alt="Electronics">
+          <div class="cat-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5">
+            <h3 class="font-serif text-lg">Electronics</h3>
+            <p class="text-zinc-400 text-xs mt-1">320+ items</p>
+          </div>
+        </div>
+        <div onclick="navigateTo('shop',{category:'footwear'})" class="category-card relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4] group">
+          <img src="https://picsum.photos/seed/cat-footwear/600/800.jpg" class="w-full h-full object-cover" alt="Footwear">
+          <div class="cat-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5">
+            <h3 class="font-serif text-lg">Footwear</h3>
+            <p class="text-zinc-400 text-xs mt-1">150+ items</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-24 px-6 relative">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-amber-500/3 rounded-full blur-3xl"></div>
+    <div class="max-w-7xl mx-auto relative">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
+        <div>
+          <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">Curated</span>
+          <h2 class="text-3xl md:text-5xl font-serif tracking-tight mt-3">Featured Products</h2>
+        </div>
+        <button onclick="navigateTo('shop')" class="text-sm text-zinc-400 hover:text-amber-500 transition-colors flex items-center gap-1">
+          View All <iconify-icon icon="lucide:arrow-right" class="text-base"></iconify-icon>
+        </button>
+      </div>
+      <div id="featuredProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Sale / Discount Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="relative rounded-3xl overflow-hidden">
+        <img src="https://picsum.photos/seed/sale-banner-lux/1400/500.jpg" class="w-full h-[400px] md:h-[500px] object-cover" alt="Sale">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent"></div>
+        <div class="absolute inset-0 flex items-center">
+          <div class="px-8 md:px-16 max-w-lg">
+            <span class="sale-badge text-black text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Limited Time</span>
+            <h2 class="text-4xl md:text-6xl font-serif mt-5 leading-tight">
+              Summer<br><span class="gradient-text italic">Flash Sale</span>
+            </h2>
+            <p class="text-zinc-400 text-sm mt-4 font-light">Get up to 60% off on selected fashion and electronics. Don't miss out!</p>
+            <div class="flex gap-4 mt-8">
+              <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-center min-w-[70px]" style="backdrop-filter:blur(8px);">
+                <div id="countDays" class="text-2xl font-serif">02</div>
+                <div class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Days</div>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-center min-w-[70px]" style="backdrop-filter:blur(8px);">
+                <div id="countHours" class="text-2xl font-serif">14</div>
+                <div class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Hours</div>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-center min-w-[70px]" style="backdrop-filter:blur(8px);">
+                <div id="countMins" class="text-2xl font-serif">36</div>
+                <div class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Mins</div>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-center min-w-[70px]" style="backdrop-filter:blur(8px);">
+                <div id="countSecs" class="text-2xl font-serif">00</div>
+                <div class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Secs</div>
+              </div>
+            </div>
+            <button onclick="navigateTo('shop',{onSale:true})" class="btn-amber px-8 py-3.5 rounded-full text-sm font-bold mt-8 inline-flex items-center gap-2">
+              Shop Sale <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Arrivals -->
+  <section class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">Just Landed</span>
+        <h2 class="text-3xl md:text-5xl font-serif tracking-tight mt-3">New Arrivals</h2>
+      </div>
+      <div id="newArrivals" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-24 px-6 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/[0.02] to-transparent"></div>
+    <div class="max-w-7xl mx-auto relative">
+      <div class="text-center mb-14">
+        <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">Reviews</span>
+        <h2 class="text-3xl md:text-5xl font-serif tracking-tight mt-3">What Customers Say</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8 hover:border-amber-500/20 transition-all duration-300">
+          <div class="star-rating flex gap-1 mb-4">
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+          </div>
+          <p class="text-zinc-300 text-sm font-light leading-relaxed mb-6">"Absolutely love the quality of their fashion line. The minimalist watch I bought is stunning — gets compliments every day. Fast shipping too!"</p>
+          <div class="flex items-center gap-3">
+            <img src="https://picsum.photos/seed/user-sarah/80/80.jpg" class="w-10 h-10 rounded-full object-cover" alt="Sarah">
+            <div>
+              <div class="text-sm font-medium">Sarah Mitchell</div>
+              <div class="text-xs text-zinc-500">Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8 hover:border-amber-500/20 transition-all duration-300">
+          <div class="star-rating flex gap-1 mb-4">
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+          </div>
+          <p class="text-zinc-300 text-sm font-light leading-relaxed mb-6">"Best electronics store online. Got the noise-cancelling headphones and they exceeded expectations. Customer service was incredibly helpful with my query."</p>
+          <div class="flex items-center gap-3">
+            <img src="https://picsum.photos/seed/user-james/80/80.jpg" class="w-10 h-10 rounded-full object-cover" alt="James">
+            <div>
+              <div class="text-sm font-medium">James Rodriguez</div>
+              <div class="text-xs text-zinc-500">Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8 hover:border-amber-500/20 transition-all duration-300">
+          <div class="star-rating flex gap-1 mb-4">
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="filled text-sm"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-sm"></iconify-icon>
+          </div>
+          <p class="text-zinc-300 text-sm font-light leading-relaxed mb-6">"The leather jacket is premium quality at a fair price. Fits perfectly and the packaging was beautiful. Will definitely be a repeat customer."</p>
+          <div class="flex items-center gap-3">
+            <img src="https://picsum.photos/seed/user-emma/80/80.jpg" class="w-10 h-10 rounded-full object-cover" alt="Emma">
+            <div>
+              <div class="text-sm font-medium">Emma Thompson</div>
+              <div class="text-xs text-zinc-500">Verified Buyer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="py-24 px-6">
+    <div class="max-w-2xl mx-auto text-center">
+      <iconify-icon icon="lucide:mail" class="text-amber-500 text-3xl mb-4"></iconify-icon>
+      <h2 class="text-3xl md:text-4xl font-serif tracking-tight">Stay in the Loop</h2>
+      <p class="text-zinc-500 text-sm mt-3 mb-8">Subscribe for exclusive deals, new arrivals, and style inspiration.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input id="newsletterEmail" type="email" placeholder="Enter your email" class="flex-1 h-12 bg-white/5 border border-white/10 rounded-full px-5 text-sm text-white placeholder-zinc-500">
+        <button onclick="subscribeNewsletter()" class="btn-amber h-12 px-8 rounded-full text-sm font-bold whitespace-nowrap">Subscribe</button>
+      </div>
+      <p class="text-zinc-600 text-xs mt-4">No spam, unsubscribe anytime.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== SHOP PAGE ==================== -->
+<div id="page-shop" class="page">
+  <div class="pt-28 pb-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center gap-2 text-xs text-zinc-500 mb-8">
+        <a href="#" onclick="navigateTo('home')" class="hover:text-amber-500 transition-colors">Home</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[10px]"></iconify-icon>
+        <span class="text-zinc-300">Shop</span>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Filters Sidebar -->
+        <aside class="lg:w-64 shrink-0">
+          <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sticky top-28">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-sm font-medium">Filters</h3>
+              <button onclick="clearFilters()" class="text-xs text-amber-500 hover:text-amber-400 transition-colors">Clear All</button>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Category</h4>
+              <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input type="checkbox" value="clothing" class="filter-cat hidden peer" onchange="applyFilters()">
+                  <span class="w-4 h-4 rounded border border-white/20 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-all"><iconify-icon icon="lucide:check" class="text-black text-[10px] hidden"></iconify-icon></span>
+                  <span class="text-sm text-zinc-400 group-hover:text-white transition-colors">Clothing</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input type="checkbox" value="accessories" class="filter-cat hidden peer" onchange="applyFilters()">
+                  <span class="w-4 h-4 rounded border border-white/20 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-all"><iconify-icon icon="lucide:check" class="text-black text-[10px] hidden"></iconify-icon></span>
+                  <span class="text-sm text-zinc-400 group-hover:text-white transition-colors">Accessories</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input type="checkbox" value="electronics" class="filter-cat hidden peer" onchange="applyFilters()">
+                  <span class="w-4 h-4 rounded border border-white/20 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-all"><iconify-icon icon="lucide:check" class="text-black text-[10px] hidden"></iconify-icon></span>
+                  <span class="text-sm text-zinc-400 group-hover:text-white transition-colors">Electronics</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input type="checkbox" value="footwear" class="filter-cat hidden peer" onchange="applyFilters()">
+                  <span class="w-4 h-4 rounded border border-white/20 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-all"><iconify-icon icon="lucide:check" class="text-black text-[10px] hidden"></iconify-icon></span>
+                  <span class="text-sm text-zinc-400 group-hover:text-white transition-colors">Footwear</span>
+                </label>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Price Range</h4>
+              <input type="range" id="priceRange" min="0" max="500" value="500" class="w-full accent-amber-500" oninput="updatePriceLabel(this.value);applyFilters()">
+              <div class="flex justify-between text-xs text-zinc-500 mt-1">
+                <span>$0</span>
+                <span id="priceLabel">$500</span>
+              </div>
+            </div>
+            <div>
+              <h4 class="text-xs text-zinc-500 uppercase tracking-wider mb-3">Sort By</h4>
+              <select id="sortSelect" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-300" onchange="applyFilters()">
+                <option value="featured">Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
+            <div class="mt-6 pt-6 border-t border-white/10">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="saleToggle" class="hidden peer" onchange="applyFilters()">
+                <span class="w-10 h-5 bg-white/10 rounded-full relative transition-colors peer-checked:bg-amber-500/50">
+                  <span class="absolute top-0.5 left-0.5 w-4 h-4 bg-zinc-400 rounded-full transition-all peer-checked:translate-x-5 peer-checked:bg-amber-500"></span>
+                </span>
+                <span class="text-sm text-zinc-400">On Sale Only</span>
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-6">
+            <p id="productCount" class="text-sm text-zinc-500">Showing 0 products</p>
+            <button onclick="document.querySelector('aside').classList.toggle('hidden');document.querySelector('aside').classList.toggle('lg:block')" class="lg:hidden flex items-center gap-2 text-sm text-zinc-400 border border-white/10 rounded-lg px-3 py-2">
+              <iconify-icon icon="lucide:sliders-horizontal"></iconify-icon> Filters
+            </button>
+          </div>
+          <div id="shopProducts" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+          <div id="noProducts" class="hidden text-center py-20">
+            <iconify-icon icon="lucide:search-x" class="text-4xl text-zinc-700 mb-4"></iconify-icon>
+            <p class="text-zinc-500">No products found matching your criteria.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CART PAGE ==================== -->
+<div id="page-cart" class="page">
+  <div class="pt-28 pb-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex items-center gap-2 text-xs text-zinc-500 mb-8">
+        <a href="#" onclick="navigateTo('home')" class="hover:text-amber-500 transition-colors">Home</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[10px]"></iconify-icon>
+        <span class="text-zinc-300">Shopping Cart</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-serif tracking-tight mb-10">Shopping Cart</h1>
+      <div id="cartEmpty" class="text-center py-20 hidden">
+        <iconify-icon icon="lucide:shopping-bag" class="text-5xl text-zinc-700 mb-4"></iconify-icon>
+        <p class="text-zinc-500 mb-6">Your cart is empty</p>
+        <button onclick="navigateTo('shop')" class="btn-primary px-6 py-3 rounded-full text-sm font-medium">Start Shopping</button>
+      </div>
+      <div id="cartContent" class="flex flex-col lg:flex-row gap-10">
+        <div id="cartItems" class="flex-1 flex flex-col gap-4"></div>
+        <div class="lg:w-80 shrink-0">
+          <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sticky top-28">
+            <h3 class="text-sm font-medium mb-4">Order Summary</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between text-zinc-400"><span>Subtotal</span><span id="cartSubtotal">$0</span></div>
+              <div class="flex justify-between text-zinc-400"><span>Shipping</span><span id="cartShipping">Free</span></div>
+              <div class="flex justify-between text-zinc-400"><span>Tax</span><span id="cartTax">$0</span></div>
+              <div class="border-t border-white/10 pt-3 flex justify-between text-white font-medium"><span>Total</span><span id="cartTotal">$0</span></div>
+            </div>
+            <div class="mt-6">
+              <div class="flex gap-2">
+                <input id="couponInput" type="text" placeholder="Coupon code" class="flex-1 h-10 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white placeholder-zinc-500">
+                <button onclick="applyCoupon()" class="h-10 px-4 bg-white/5 border border-white/10 rounded-lg text-xs text-zinc-300 hover:bg-white/10 transition-colors">Apply</button>
+              </div>
+              <p id="couponMsg" class="text-xs mt-2 hidden"></p>
+            </div>
+            <button onclick="navigateTo('checkout')" class="btn-amber w-full h-12 rounded-full text-sm font-bold mt-6">Proceed to Checkout</button>
+            <button onclick="navigateTo('shop')" class="w-full h-10 text-xs text-zinc-500 hover:text-zinc-300 transition-colors mt-3">Continue Shopping</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHECKOUT PAGE ==================== -->
+<div id="page-checkout" class="page">
+  <div class="pt-28 pb-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex items-center gap-2 text-xs text-zinc-500 mb-8">
+        <a href="#" onclick="navigateTo('home')" class="hover:text-amber-500 transition-colors">Home</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[10px]"></iconify-icon>
+        <a href="#" onclick="navigateTo('cart')" class="hover:text-amber-500 transition-colors">Cart</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[10px]"></iconify-icon>
+        <span class="text-zinc-300">Checkout</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-serif tracking-tight mb-10">Checkout</h1>
+      <div class="flex flex-col lg:flex-row gap-10">
+        <div class="flex-1">
+          <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 mb-6">
+            <h3 class="text-sm font-medium mb-4 flex items-center gap-2"><iconify-icon icon="lucide:user" class="text-amber-500"></iconify-icon> Contact Information</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" placeholder="First Name" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+              <input type="text" placeholder="Last Name" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+              <input type="email" placeholder="Email Address" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500 sm:col-span-2">
+              <input type="tel" placeholder="Phone Number" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500 sm:col-span-2">
+            </div>
+          </div>
+          <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 mb-6">
+            <h3 class="text-sm font-medium mb-4 flex items-center gap-2"><iconify-icon icon="lucide:map-pin" class="text-amber-500"></iconify-icon> Shipping Address</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" placeholder="Street Address" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500 sm:col-span-2">
+              <input type="text" placeholder="City" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+              <input type="text" placeholder="State" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+              <input type="text" placeholder="ZIP Code" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+              <select class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-zinc-400">
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+              </select>
+            </div>
+          </div>
+          <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+            <h3 class="text-sm font-medium mb-4 flex items-center gap-2"><iconify-icon icon="lucide:credit-card" class="text-amber-500"></iconify-icon> Payment Method</h3>
+            <div class="flex gap-3 mb-4">
+              <label class="flex-1 flex items-center justify-center gap-2 bg-white/5 border border-white/10 rounded-xl py-3 cursor-pointer hover:border-amber-500/30 transition-colors has-[:checked]:border-amber-500/50 has-[:checked]:bg-amber-500/5">
+                <input type="radio" name="payment" value="card" checked class="hidden">
+                <iconify-icon icon="lucide:credit-card" class="text-zinc-400"></iconify-icon>
+                <span class="text-xs text-zinc-300">Card</span>
+              </label>
+              <label class="flex-1 flex items-center justify-center gap-2 bg-white/5 border border-white/10 rounded-xl py-3 cursor-pointer hover:border-amber-500/30 transition-colors has-[:checked]:border-amber-500/50 has-[:checked]:bg-amber-500/5">
+                <input type="radio" name="payment" value="paypal" class="hidden">
+                <iconify-icon icon="lucide:wallet" class="text-zinc-400"></iconify-icon>
+                <span class="text-xs text-zinc-300">PayPal</span>
+              </label>
+              <label class="flex-1 flex items-center justify-center gap-2 bg-white/5 border border-white/10 rounded-xl py-3 cursor-pointer hover:border-amber-500/30 transition-colors has-[:checked]:border-amber-500/50 has-[:checked]:bg-amber-500/5">
+                <input type="radio" name="payment" value="cod" class="hidden">
+                <iconify-icon icon="lucide:banknote" class="text-zinc-400"></iconify-icon>
+                <span class="text-xs text-zinc-300">COD</span>
+              </label>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" placeholder="Card Number" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500 sm:col-span-2">
+              <input type="text" placeholder="MM/YY" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+              <input type="text" placeholder="CVC" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+            </div>
+          </div>
+        </div>
+        <div class="lg:w-80 shrink-0">
+          <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sticky top-28">
+            <h3 class="text-sm font-medium mb-4">Order Summary</h3>
+            <div id="checkoutItems" class="space-y-3 mb-4 max-h-60 overflow-y-auto"></div>
+            <div class="space-y-3 text-sm border-t border-white/10 pt-4">
+              <div class="flex justify-between text-zinc-400"><span>Subtotal</span><span id="checkSubtotal">$0</span></div>
+              <div class="flex justify-between text-zinc-400"><span>Shipping</span><span>Free</span></div>
+              <div class="flex justify-between text-zinc-400"><span>Tax</span><span id="checkTax">$0</span></div>
+              <div class="border-t border-white/10 pt-3 flex justify-between text-white font-medium text-base"><span>Total</span><span id="checkTotal">$0</span></div>
+            </div>
+            <button onclick="placeOrder()" class="btn-amber w-full h-12 rounded-full text-sm font-bold mt-6 flex items-center justify-center gap-2">
+              <iconify-icon icon="lucide:lock" class="text-xs"></iconify-icon> Place Order
+            </button>
+            <p class="text-center text-[10px] text-zinc-600 mt-3 flex items-center justify-center gap-1">
+              <iconify-icon icon="lucide:shield-check" class="text-xs"></iconify-icon> Secure 256-bit SSL Encryption
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ORDER CONFIRMATION PAGE ==================== -->
+<div id="page-confirmation" class="page">
+  <div class="pt-28 pb-24 px-6 min-h-screen flex items-center justify-center">
+    <div class="max-w-lg w-full text-center">
+      <div class="w-20 h-20 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-scale">
+        <iconify-icon icon="lucide:check-circle" class="text-green-500 text-4xl"></iconify-icon>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-serif tracking-tight mb-3">Order Confirmed!</h1>
+      <p class="text-zinc-400 text-sm mb-2">Thank you for your purchase.</p>
+      <p class="text-zinc-500 text-sm mb-8">Order ID: <span id="orderId" class="text-amber-500 font-medium">#LX-000000</span></p>
+      <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-left mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <iconify-icon icon="lucide:package" class="text-amber-500"></iconify-icon>
+          <span class="text-sm font-medium">Order Details</span>
+        </div>
+        <div id="confirmationItems" class="space-y-3 mb-4"></div>
+        <div class="border-t border-white/10 pt-3 flex justify-between text-sm font-medium">
+          <span>Total Paid</span><span id="confirmTotal" class="text-amber-500">$0</span>
+        </div>
+      </div>
+      <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-left mb-8">
+        <div class="flex items-center gap-3 mb-3">
+          <iconify-icon icon="lucide:truck" class="text-amber-500"></iconify-icon>
+          <span class="text-sm font-medium">Shipping Info</span>
+        </div>
+        <p class="text-zinc-400 text-sm">Estimated delivery: <span class="text-white">3-5 business days</span></p>
+        <p class="text-zinc-500 text-xs mt-1">You'll receive a confirmation email with tracking details.</p>
+      </div>
+      <button onclick="navigateTo('shop')" class="btn-primary px-8 py-3.5 rounded-full text-sm font-medium">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ABOUT PAGE ==================== -->
+<div id="page-about" class="page">
+  <div class="pt-28 pb-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex items-center gap-2 text-xs text-zinc-500 mb-8">
+        <a href="#" onclick="navigateTo('home')" class="hover:text-amber-500 transition-colors">Home</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[10px]"></iconify-icon>
+        <span class="text-zinc-300">About</span>
+      </div>
+      <div class="text-center mb-16">
+        <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">Our Story</span>
+        <h1 class="text-4xl md:text-6xl font-serif tracking-tight mt-3">About <span class="italic gradient-text">LUXE</span></h1>
+      </div>
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
+        <div class="rounded-2xl overflow-hidden">
+          <img src="https://picsum.photos/seed/about-luxe-store/800/600.jpg" class="w-full h-[400px] object-cover" alt="About LUXE">
+        </div>
+        <div>
+          <h2 class="text-2xl font-serif mb-4">Redefining Premium Shopping</h2>
+          <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">Founded in 2020, LUXE was born from a simple idea: make premium fashion and cutting-edge electronics accessible to everyone who values quality and design.</p>
+          <p class="text-zinc-400 text-sm font-light leading-relaxed mb-4">We carefully curate every product in our collection, partnering with over 50 renowned brands and emerging designers to bring you pieces that stand the test of time.</p>
+          <p class="text-zinc-400 text-sm font-light leading-relaxed">Our commitment goes beyond products — we're building a community of discerning individuals who appreciate the finer things without the traditional luxury markup.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20">
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center hover:border-amber-500/20 transition-all">
+          <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <iconify-icon icon="lucide:gem" class="text-amber-500 text-2xl"></iconify-icon>
+          </div>
+          <h3 class="font-serif text-lg mb-2">Quality First</h3>
+          <p class="text-zinc-500 text-sm font-light">Every product undergoes rigorous quality checks before reaching you.</p>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center hover:border-amber-500/20 transition-all">
+          <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <iconify-icon icon="lucide:leaf" class="text-amber-500 text-2xl"></iconify-icon>
+          </div>
+          <h3 class="font-serif text-lg mb-2">Sustainable</h3>
+          <p class="text-zinc-500 text-sm font-light">We prioritize eco-friendly packaging and ethical sourcing practices.</p>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center hover:border-amber-500/20 transition-all">
+          <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <iconify-icon icon="lucide:heart-handshake" class="text-amber-500 text-2xl"></iconify-icon>
+          </div>
+          <h3 class="font-serif text-lg mb-2">Customer Love</h3>
+          <p class="text-zinc-500 text-sm font-light">98% satisfaction rate backed by our world-class support team.</p>
+        </div>
+      </div>
+      <div class="text-center mb-10">
+        <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">The Team</span>
+        <h2 class="text-3xl font-serif tracking-tight mt-3">Meet the Founders</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="text-center">
+          <img src="https://picsum.photos/seed/team-alex/300/300.jpg" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-2 border-white/10" alt="Alex">
+          <h4 class="font-medium">Alex Chen</h4>
+          <p class="text-zinc-500 text-xs mt-1">CEO & Co-Founder</p>
+        </div>
+        <div class="text-center">
+          <img src="https://picsum.photos/seed/team-maya/300/300.jpg" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-2 border-white/10" alt="Maya">
+          <h4 class="font-medium">Maya Patel</h4>
+          <p class="text-zinc-500 text-xs mt-1">Creative Director</p>
+        </div>
+        <div class="text-center">
+          <img src="https://picsum.photos/seed/team-daniel/300/300.jpg" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-2 border-white/10" alt="Daniel">
+          <h4 class="font-medium">Daniel Kim</h4>
+          <p class="text-zinc-500 text-xs mt-1">CTO & Co-Founder</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONTACT PAGE ==================== -->
+<div id="page-contact" class="page">
+  <div class="pt-28 pb-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex items-center gap-2 text-xs text-zinc-500 mb-8">
+        <a href="#" onclick="navigateTo('home')" class="hover:text-amber-500 transition-colors">Home</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[10px]"></iconify-icon>
+        <span class="text-zinc-300">Contact</span>
+      </div>
+      <div class="text-center mb-14">
+        <span class="text-amber-500 text-xs font-medium uppercase tracking-widest">Get in Touch</span>
+        <h1 class="text-4xl md:text-5xl font-serif tracking-tight mt-3">Contact Us</h1>
+        <p class="text-zinc-500 text-sm mt-3 max-w-md mx-auto">Have a question or need help? We'd love to hear from you.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mb-14">
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-amber-500/20 transition-all">
+          <iconify-icon icon="lucide:mail" class="text-amber-500 text-2xl mb-3"></iconify-icon>
+          <h3 class="text-sm font-medium mb-1">Email</h3>
+          <p class="text-zinc-400 text-sm">hello@luxe.store</p>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-amber-500/20 transition-all">
+          <iconify-icon icon="lucide:phone" class="text-amber-500 text-2xl mb-3"></iconify-icon>
+          <h3 class="text-sm font-medium mb-1">Phone</h3>
+          <p class="text-zinc-400 text-sm">+1 (555) 123-4567</p>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-amber-500/20 transition-all">
+          <iconify-icon icon="lucide:map-pin" class="text-amber-500 text-2xl mb-3"></iconify-icon>
+          <h3 class="text-sm font-medium mb-1">Address</h3>
+          <p class="text-zinc-400 text-sm">123 Luxury Ave, NY 10001</p>
+        </div>
+      </div>
+      <div class="max-w-2xl mx-auto">
+        <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
+          <h2 class="text-xl font-serif mb-6">Send a Message</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <input type="text" placeholder="Your Name" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+            <input type="email" placeholder="Your Email" class="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+          </div>
+          <select class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-zinc-400 mb-4">
+            <option value="">Select Subject</option>
+            <option>Order Inquiry</option>
+            <option>Product Question</option>
+            <option>Return/Refund</option>
+            <option>Partnership</option>
+            <option>Other</option>
+          </select>
+          <textarea placeholder="Your Message" rows="5" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 mb-4 resize-none"></textarea>
+          <button onclick="showToast('Message sent! We\'ll get back to you soon.','success')" class="btn-amber px-8 py-3 rounded-full text-sm font-bold">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="border-t border-white/10 bg-zinc-950">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+      <div class="col-span-2 md:col-span-1">
+        <a href="#" onclick="navigateTo('home')" class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+            <iconify-icon icon="lucide:gem" class="text-black text-sm"></iconify-icon>
+          </div>
+          <span class="text-lg font-serif font-bold">LUXE</span>
+        </a>
+        <p class="text-zinc-500 text-sm font-light leading-relaxed mb-4">Premium fashion & electronics for the modern lifestyle.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-amber-500/10 hover:border-amber-500/20 transition-all"><iconify-icon icon="lucide:instagram" class="text-zinc-400 text-sm"></iconify-icon></a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-amber-500/10 hover:border-amber-500/20 transition-all"><iconify-icon icon="lucide:twitter" class="text-zinc-400 text-sm"></iconify-icon></a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-amber-500/10 hover:border-amber-500/20 transition-all"><iconify-icon icon="lucide:facebook" class="text-zinc-400 text-sm"></iconify-icon></a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-amber-500/10 hover:border-amber-500/20 transition-all"><iconify-icon icon="lucide:youtube" class="text-zinc-400 text-sm"></iconify-icon></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xs font-medium uppercase tracking-wider mb-4">Shop</h4>
+        <div class="flex flex-col gap-2.5">
+          <a href="#" onclick="navigateTo('shop',{category:'clothing'})" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Clothing</a>
+          <a href="#" onclick="navigateTo('shop',{category:'accessories'})" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Accessories</a>
+          <a href="#" onclick="navigateTo('shop',{category:'electronics'})" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Electronics</a>
+          <a href="#" onclick="navigateTo('shop',{category:'footwear'})" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Footwear</a>
+          <a href="#" onclick="navigateTo('shop',{onSale:true})" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Sale</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xs font-medium uppercase tracking-wider mb-4">Company</h4>
+        <div class="flex flex-col gap-2.5">
+          <a href="#" onclick="navigateTo('about')" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">About Us</a>
+          <a href="#" onclick="navigateTo('contact')" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Contact</a>
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Careers</a>
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Blog</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-xs font-medium uppercase tracking-wider mb-4">Support</h4>
+        <div class="flex flex-col gap-2.5">
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Help Center</a>
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Shipping Info</a>
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Returns</a>
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-sm text-zinc-500 hover:text-amber-500 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-zinc-600">© 2025 LUXE. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <iconify-icon icon="lucide:credit-card" class="text-zinc-600 text-lg"></iconify-icon>
+        <iconify-icon icon="lucide:wallet" class="text-zinc-600 text-lg"></iconify-icon>
+        <iconify-icon icon="lucide:smartphone" class="text-zinc-600 text-lg"></iconify-icon>
+        <iconify-icon icon="lucide:shield-check" class="text-zinc-600 text-lg"></iconify-icon>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== AUTH MODAL ==================== -->
+<div id="authModal" class="fixed inset-0 z-[70] hidden">
+  <div class="modal-backdrop absolute inset-0 bg-black/60" onclick="closeModal('authModal')"></div>
+  <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+    <div class="bg-zinc-900 border border-white/10 rounded-2xl p-8 mx-4 relative">
+      <button onclick="closeModal('authModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+        <iconify-icon icon="lucide:x" class="text-zinc-400 text-sm"></iconify-icon>
+      </button>
+      <div id="loginForm">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+            <iconify-icon icon="lucide:user" class="text-amber-500 text-xl"></iconify-icon>
+          </div>
+          <h2 class="text-xl font-serif">Welcome Back</h2>
+          <p class="text-zinc-500 text-xs mt-1">Sign in to your account</p>
+        </div>
+        <div class="space-y-3">
+          <input type="email" placeholder="Email Address" class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+          <input type="password" placeholder="Password" class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="accent-amber-500"><span class="text-xs text-zinc-500">Remember me</span></label>
+            <a href="#" class="text-xs text-amber-500 hover:text-amber-400">Forgot password?</a>
+          </div>
+          <button onclick="closeModal('authModal');showToast('Welcome back! You\'re now signed in.','success')" class="btn-amber w-full h-11 rounded-xl text-sm font-bold">Sign In</button>
+        </div>
+        <div class="relative my-6"><div class="border-t border-white/10"></div><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-900 px-3 text-xs text-zinc-600">or</span></div>
+        <button class="w-full h-11 bg-white/5 border border-white/10 rounded-xl text-sm text-zinc-300 hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+          <iconify-icon icon="lucide:chrome" class="text-base"></iconify-icon> Continue with Google
+        </button>
+        <p class="text-center text-xs text-zinc-500 mt-4">Don't have an account? <a href="#" onclick="switchAuthForm()" class="text-amber-500 hover:text-amber-400">Sign Up</a></p>
+      </div>
+      <div id="signupForm" class="hidden">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+            <iconify-icon icon="lucide:user-plus" class="text-amber-500 text-xl"></iconify-icon>
+          </div>
+          <h2 class="text-xl font-serif">Create Account</h2>
+          <p class="text-zinc-500 text-xs mt-1">Join the LUXE community</p>
+        </div>
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <input type="text" placeholder="First Name" class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+            <input type="text" placeholder="Last Name" class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+          </div>
+          <input type="email" placeholder="Email Address" class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+          <input type="password" placeholder="Password" class="w-full h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder-zinc-500">
+          <label class="flex items-start gap-2 cursor-pointer"><input type="checkbox" class="accent-amber-500 mt-0.5"><span class="text-xs text-zinc-500">I agree to the <a href="#" class="text-amber-500">Terms</a> and <a href="#" class="text-amber-500">Privacy Policy</a></span></label>
+          <button onclick="closeModal('authModal');showToast('Account created! Welcome to LUXE.','success')" class="btn-amber w-full h-11 rounded-xl text-sm font-bold">Create Account</button>
+        </div>
+        <p class="text-center text-xs text-zinc-500 mt-4">Already have an account? <a href="#" onclick="switchAuthForm()" class="text-amber-500 hover:text-amber-400">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRODUCT QUICK VIEW MODAL ==================== -->
+<div id="quickViewModal" class="fixed inset-0 z-[70] hidden">
+  <div class="modal-backdrop absolute inset-0 bg-black/70" onclick="closeModal('quickViewModal')"></div>
+  <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-zinc-900 border border-white/10 rounded-2xl mx-4 overflow-hidden relative" id="quickViewContent"></div>
+  </div>
+</div>
+
+<!-- ==================== WHATSAPP BUTTON ==================== -->
+<a href="https://wa.me/15551234567?text=Hi!%20I%20need%20help%20with%20my%20order." target="_blank" class="whatsapp-btn fixed bottom-6 right-6 z-40 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+  <iconify-icon icon="lucide:message-circle" class="text-white text-2xl"></iconify-icon>
+</a>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+const products = [
+  { id:1, name:"Premium Leather Jacket", price:289, oldPrice:399, category:"clothing", rating:4.8, reviews:124, image:"leather-jacket-premium", badge:"Sale", isNew:false, onSale:true, desc:"Handcrafted genuine leather jacket with a modern slim fit. Premium stitching and interior lining." },
+  { id:2, name:"Wireless Noise-Cancelling Headphones", price:199, oldPrice:249, category:"electronics", rating:4.9, reviews:312, image:"headphones-wireless-nc", badge:"Best Seller", isNew:false, onSale:true, desc:"Immersive audio with 40-hour battery life. Active noise cancellation with transparency mode." },
+  { id:3, name:"Minimalist Gold Watch", price:159, oldPrice:null, category:"accessories", rating:4.7, reviews:89, image:"gold-watch-minimal", badge:null, isNew:true, onSale:false, desc:"Swiss movement with sapphire crystal glass. Italian leather strap with gold-tone case." },
+  { id:4, name:"Smart Fitness Tracker Pro", price:129, oldPrice:179, category:"electronics", rating:4.6, reviews:256, image:"fitness-tracker-pro", badge:"Sale", isNew:false, onSale:true, desc:"Advanced health monitoring with heart rate, SpO2, sleep tracking, and GPS." },
+  { id:5, name:"Designer Sunglasses", price:89, oldPrice:null, category:"accessories", rating:4.5, reviews:67, image:"sunglasses-designer", badge:null, isNew:true, onSale:false, desc:"UV400 protection with polarized lenses. Lightweight titanium frame." },
+  { id:6, name:"Classic White Sneakers", price:119, oldPrice:null, category:"footwear", rating:4.8, reviews:198, image:"white-sneakers-classic", badge:"Popular", isNew:false, onSale:false, desc:"Premium leather upper with cushioned insole. Versatile style for any occasion." },
+  { id:7, name:"Ultra-Slim Laptop Stand", price:49, oldPrice:69, category:"electronics", rating:4.4, reviews:143, image:"laptop-stand-slim", badge:"Sale", isNew:false, onSale:true, desc:"Ergonomic aluminum design, foldable and portable. Compatible with all laptops." },
+  { id:8, name:"Cashmere Blend Scarf", price:79, oldPrice:null, category:"clothing", rating:4.6, reviews:54, image:"cashmere-scarf-lux", badge:null, isNew:true, onSale:false, desc:"Luxuriously soft cashmere-wool blend. Perfect for layering in any season." },
+  { id:9, name:"Portable Bluetooth Speaker", price:69, oldPrice:null, category:"electronics", rating:4.7, reviews:221, image:"bluetooth-speaker-port", badge:null, isNew:true, onSale:false, desc:"360° sound with deep bass. Waterproof IPX7 with 20-hour playtime." },
+  { id:10, name:"Slim Fit Chino Pants", price:69, oldPrice:null, category:"clothing", rating:4.5, reviews:112, image:"chino-pants-slim", badge:null, isNew:false, onSale:false, desc:"Stretch cotton twill with a modern slim fit. Available in multiple colors." },
+  { id:11, name:"Leather Crossbody Bag", price:139, oldPrice:189, category:"accessories", rating:4.8, reviews:76, image:"crossbody-bag-leather", badge:"Sale", isNew:false, onSale:true, desc:"Full-grain leather with adjustable strap. Multiple compartments for organization." },
+  { id:12, name:"Running Shoes Ultra", price:149, oldPrice:null, category:"footwear", rating:4.9, reviews:287, image:"running-shoes-ultra", badge:"New", isNew:true, onSale:false, desc:"Engineered mesh upper with responsive cushioning. Lightweight performance design." },
+  { id:13, name:"Mechanical Keyboard RGB", price:89, oldPrice:119, category:"electronics", rating:4.7, reviews:198, image:"keyboard-mechanical", badge:"Sale", isNew:false, onSale:true, desc:"Hot-swappable switches with per-key RGB. Aluminum frame with PBT keycaps." },
+  { id:14, name:"Linen Button-Down Shirt", price:59, oldPrice:null, category:"clothing", rating:4.4, reviews:63, image:"linen-shirt-button", badge:null, isNew:true, onSale:false, desc:"Breathable pure linen with a relaxed fit. Perfect for warm-weather style." },
+  { id:15, name:"Titanium Ring Set", price:109, oldPrice:null, category:"accessories", rating:4.6, reviews:41, image:"titanium-ring-set", badge:null, isNew:true, onSale:false, desc:"Hypoallergenic titanium with brushed finish. Set of 3 minimalist designs." },
+  { id:16, name:"Chelsea Boots Premium", price:189, oldPrice:249, category:"footwear", rating:4.8, reviews:156, image:"chelsea-boots-prem", badge:"Sale", isNew:false, onSale:true, desc:"Full-grain leather with elastic side panels. Goodyear welt construction." },
+];
+
+let cart = JSON.parse(localStorage.getItem('luxe_cart') || '[]');
+let currentPage = 'home';
+let mobileDropdownOpen = false;
+
+// ============ NAVIGATION ============
+function navigateTo(page, opts = {}) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) { target.classList.add('active'); currentPage = page; }
+
+  document.querySelectorAll('[data-nav]').forEach(n => n.classList.remove('active'));
+  const navLink = document.querySelector(`[data-nav="${page}"]`);
+  if (navLink) navLink.classList.add('active');
+
+  document.querySelectorAll('[data-mobnav]').forEach(n => n.classList.remove('active'));
+  const mobLink = document.querySelector(`[data-mobnav="${page}"]`);
+  if (mobLink) mobLink.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (page === 'shop') {
+    if (opts.category) {
+      setTimeout(() => {
+        document.querySelectorAll('.filter-cat').forEach(cb => { cb.checked = cb.value === opts.category; updateCheckboxVisual(cb); });
+        applyFilters();
+      }, 100);
+    }
+    if (opts.onSale) { setTimeout(() => { document.getElementById('saleToggle').checked = true; applyFilters(); }, 100); }
+    if (!opts.category && !opts.onSale) renderShopProducts(products);
+  }
+  if (page === 'cart') renderCart();
+  if (page === 'checkout') renderCheckout();
+}
+
+// ============ MOBILE DROPDOWN ============
+function toggleMobileDropdown() {
+  mobileDropdownOpen = !mobileDropdownOpen;
+  const dropdown = document.getElementById('mobileDropdown');
+  const icon = document.getElementById('menuIcon');
+
+  if (mobileDropdownOpen) {
+    dropdown.classList.add('open');
+    icon.setAttribute('icon', 'lucide:x');
+    icon.style.transform = 'rotate(90deg)';
+  } else {
+    dropdown.classList.remove('open');
+    icon.setAttribute('icon', 'lucide:menu');
+    icon.style.transform = 'rotate(0deg)';
+  }
+}
+
+function closeMobileDropdown() {
+  if (!mobileDropdownOpen) return;
+  mobileDropdownOpen = false;
+  document.getElementById('mobileDropdown').classList.remove('open');
+  const icon = document.getElementById('menuIcon');
+  icon.setAttribute('icon', 'lucide:menu');
+  icon.style.transform = 'rotate(0deg)';
+}
+
+function toggleMobileSearch() {
+  const el = document.getElementById('mobileSearch');
+  if (el.style.maxHeight && el.style.maxHeight !== '0px') {
+    el.style.maxHeight = '0px';
+    el.style.opacity = '0';
+  } else {
+    el.style.maxHeight = '60px';
+    el.style.opacity = '1';
+  }
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  if (mobileDropdownOpen && !e.target.closest('#mobileDropdown') && !e.target.closest('#hamburgerBtn')) {
+    closeMobileDropdown();
+  }
+});
+
+// ============ PRODUCT CARD ============
+function createProductCard(product) {
+  const stars = renderStars(product.rating);
+  const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
+  return `
+    <div class="product-card bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden group cursor-pointer" onclick="openQuickView(${product.id})">
+      <div class="relative aspect-[3/4] overflow-hidden bg-zinc-900">
+        <img src="https://picsum.photos/seed/${product.image}/600/800.jpg" alt="${product.name}" class="card-img w-full h-full object-cover" loading="lazy">
+        <div class="card-overlay absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0"></div>
+        <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+          ${product.badge ? `<span class="${product.onSale ? 'sale-badge' : 'bg-white/10 border border-white/20'} text-${product.onSale ? 'black' : 'white'} text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style="backdrop-filter:blur(8px)">${product.badge}</span>` : ''}
+          ${product.isNew ? '<span class="bg-white/10 border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style="backdrop-filter:blur(8px)">New</span>' : ''}
+        </div>
+        <div class="quick-actions absolute bottom-3 left-3 right-3 flex gap-2">
+          <button onclick="event.stopPropagation();addToCart(${product.id})" class="flex-1 bg-white text-black h-9 rounded-lg text-xs font-medium hover:bg-zinc-200 transition-colors flex items-center justify-center gap-1.5">
+            <iconify-icon icon="lucide:shopping-bag" class="text-sm"></iconify-icon> Add to Cart
+          </button>
+          <button onclick="event.stopPropagation()" class="w-9 h-9 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors" style="backdrop-filter:blur(8px)">
+            <iconify-icon icon="lucide:heart" class="text-white text-sm"></iconify-icon>
+          </button>
+        </div>
+      </div>
+      <div class="p-4">
+        <p class="text-[10px] text-zinc-600 uppercase tracking-wider mb-1">${product.category}</p>
+        <h3 class="text-sm font-medium text-zinc-200 truncate mb-1.5">${product.name}</h3>
+        <div class="flex items-center gap-1.5 mb-2">
+          <div class="star-rating flex gap-0.5">${stars}</div>
+          <span class="text-[10px] text-zinc-600">(${product.reviews})</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-medium text-white">$${product.price}</span>
+          ${product.oldPrice ? `<span class="text-xs text-zinc-600 line-through">$${product.oldPrice}</span><span class="text-[10px] text-amber-500 font-medium">-${discount}%</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderStars(rating) {
+  let html = '';
+  for (let i = 1; i <= 5; i++) html += `<iconify-icon icon="lucide:star" class="text-[11px] ${i <= Math.round(rating) ? 'filled' : ''}"></iconify-icon>`;
+  return html;
+}
+
+// ============ HOME ============
+function renderHomePage() {
+  document.getElementById('featuredProducts').innerHTML = products.filter(p => p.rating >= 4.7).slice(0, 4).map(createProductCard).join('');
+  document.getElementById('newArrivals').innerHTML = products.filter(p => p.isNew).slice(0, 4).map(createProductCard).join('');
+}
+
+// ============ SHOP ============
+function renderShopProducts(list) {
+  const grid = document.getElementById('shopProducts');
+  const noProducts = document.getElementById('noProducts');
+  document.getElementById('productCount').textContent = `Showing ${list.length} product${list.length !== 1 ? 's' : ''}`;
+  if (list.length === 0) { grid.innerHTML = ''; noProducts.classList.remove('hidden'); }
+  else { noProducts.classList.add('hidden'); grid.innerHTML = list.map(createProductCard).join(''); }
+}
+
+function applyFilters() {
+  const checkedCats = [...document.querySelectorAll('.filter-cat:checked')].map(cb => cb.value);
+  const maxPrice = parseInt(document.getElementById('priceRange').value);
+  const sort = document.getElementById('sortSelect').value;
+  const saleOnly = document.getElementById('saleToggle').checked;
+  let filtered = products.filter(p => {
+    if (checkedCats.length && !checkedCats.includes(p.category)) return false;
+    if (p.price > maxPrice) return false;
+    if (saleOnly && !p.onSale) return false;
+    return true;
+  });
+  switch (sort) {
+    case 'price-low': filtered.sort((a,b) => a.price - b.price); break;
+    case 'price-high': filtered.sort((a,b) => b.price - a.price); break;
+    case 'rating': filtered.sort((a,b) => b.rating - a.rating); break;
+    case 'newest': filtered.sort((a,b) => b.isNew - a.isNew); break;
+  }
+  renderShopProducts(filtered);
+}
+
+function clearFilters() {
+  document.querySelectorAll('.filter-cat').forEach(cb => { cb.checked = false; updateCheckboxVisual(cb); });
+  document.getElementById('priceRange').value = 500;
+  document.getElementById('priceLabel').textContent = '$500';
+  document.getElementById('sortSelect').value = 'featured';
+  document.getElementById('saleToggle').checked = false;
+  renderShopProducts(products);
+}
+
+function updatePriceLabel(val) { document.getElementById('priceLabel').textContent = '$' + val; }
+
+function updateCheckboxVisual(cb) {
+  const span = cb.nextElementSibling;
+  const icon = span.querySelector('iconify-icon');
+  if (cb.checked) { span.classList.add('bg-amber-500','border-amber-500'); if(icon) icon.style.display='block'; }
+  else { span.classList.remove('bg-amber-500','border-amber-500'); if(icon) icon.style.display='none'; }
+}
+
+document.addEventListener('change', function(e) { if (e.target.classList.contains('filter-cat')) updateCheckboxVisual(e.target); });
+
+// ============ QUICK VIEW ============
+function openQuickView(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const stars = renderStars(p.rating);
+  const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+  document.getElementById('quickViewContent').innerHTML = `
+    <div class="grid md:grid-cols-2">
+      <div class="aspect-square md:aspect-auto bg-zinc-800"><img src="https://picsum.photos/seed/${p.image}/800/800.jpg" alt="${p.name}" class="w-full h-full object-cover"></div>
+      <div class="p-8 flex flex-col justify-center">
+        <button onclick="closeModal('quickViewModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"><iconify-icon icon="lucide:x" class="text-zinc-400 text-sm"></iconify-icon></button>
+        <p class="text-[10px] text-amber-500 uppercase tracking-widest mb-2">${p.category}</p>
+        <h2 class="text-2xl font-serif mb-2">${p.name}</h2>
+        <div class="flex items-center gap-2 mb-4"><div class="star-rating flex gap-0.5">${stars}</div><span class="text-xs text-zinc-500">${p.rating} (${p.reviews} reviews)</span></div>
+        <p class="text-zinc-400 text-sm font-light leading-relaxed mb-6">${p.desc}</p>
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-2xl font-medium">$${p.price}</span>
+          ${p.oldPrice ? `<span class="text-lg text-zinc-600 line-through">$${p.oldPrice}</span><span class="text-sm text-amber-500 font-medium">-${discount}%</span>` : ''}
+        </div>
+        <div class="flex gap-3">
+          <button onclick="addToCart(${p.id});closeModal('quickViewModal')" class="btn-amber flex-1 h-11 rounded-xl text-sm font-bold flex items-center justify-center gap-2"><iconify-icon icon="lucide:shopping-bag"></iconify-icon> Add to Cart</button>
+          <button class="w-11 h-11 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors"><iconify-icon icon="lucide:heart" class="text-zinc-400"></iconify-icon></button>
+        </div>
+        <div class="mt-6 pt-6 border-t border-white/10 space-y-2">
+          <div class="flex items-center gap-2 text-xs text-zinc-500"><iconify-icon icon="lucide:truck" class="text-amber-500/70"></iconify-icon> Free shipping on orders over $99</div>
+          <div class="flex items-center gap-2 text-xs text-zinc-500"><iconify-icon icon="lucide:rotate-ccw" class="text-amber-500/70"></iconify-icon> 30-day hassle-free returns</div>
+          <div class="flex items-center gap-2 text-xs text-zinc-500"><iconify-icon icon="lucide:shield-check" class="text-amber-500/70"></iconify-icon> 1-year warranty included</div>
+        </div>
+      </div>
+    </div>`;
+  openModal('quickViewModal');
+}
+
+// ============ CART ============
+function addToCart(id) {
+  const existing = cart.find(item => item.id === id);
+  if (existing) existing.qty++; else cart.push({ id, qty: 1 });
+  saveCart(); updateCartUI();
+  const p = products.find(x => x.id === id);
+  showToast(`${p.name} added to cart!`, 'success');
+  const badge = document.getElementById('cartCount');
+  badge.classList.add('animate-cart-bounce');
+  setTimeout(() => badge.classList.remove('animate-cart-bounce'), 400);
+}
+
+function removeFromCart(id) { cart = cart.filter(item => item.id !== id); saveCart(); updateCartUI(); renderCart(); }
+
+function updateQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty < 1) { removeFromCart(id); return; }
+  saveCart(); updateCartUI(); renderCart();
+}
+
+function saveCart() { localStorage.setItem('luxe_cart', JSON.stringify(cart)); }
+
+function getCartTotal() { return cart.reduce((sum, item) => { const p = products.find(x => x.id === item.id); return sum + (p ? p.price * item.qty : 0); }, 0); }
+
+function updateCartUI() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  ['cartCount', 'mobileCartCount'].forEach(id => {
+    const el = document.getElementById(id);
+    if (count > 0) { el.textContent = count; el.classList.remove('hidden'); } else { el.classList.add('hidden'); }
+  });
+}
+
+function renderCart() {
+  const emptyEl = document.getElementById('cartEmpty');
+  const contentEl = document.getElementById('cartContent');
+  const itemsEl = document.getElementById('cartItems');
+  if (cart.length === 0) { emptyEl.classList.remove('hidden'); contentEl.classList.add('hidden'); return; }
+  emptyEl.classList.add('hidden'); contentEl.classList.remove('hidden');
+  itemsEl.innerHTML = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return '';
+    return `<div class="bg-white/[0.03] border border-white/10 rounded-2xl p-4 flex gap-4">
+      <img src="https://picsum.photos/seed/${p.image}/200/200.jpg" alt="${p.name}" class="w-20 h-20 rounded-xl object-cover shrink-0">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2">
+          <div><h3 class="text-sm font-medium truncate">${p.name}</h3><p class="text-[10px] text-zinc-600 uppercase tracking-wider mt-0.5">${p.category}</p></div>
+          <button onclick="removeFromCart(${p.id})" class="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center hover:bg-red-500/10 hover:text-red-400 transition-colors shrink-0"><iconify-icon icon="lucide:trash-2" class="text-xs text-zinc-500"></iconify-icon></button>
+        </div>
+        <div class="flex items-center justify-between mt-3">
+          <div class="flex items-center gap-0 border border-white/10 rounded-lg overflow-hidden">
+            <button onclick="updateQty(${p.id},-1)" class="qty-btn w-8 h-8 flex items-center justify-center text-zinc-400"><iconify-icon icon="lucide:minus" class="text-xs"></iconify-icon></button>
+            <span class="w-8 h-8 flex items-center justify-center text-xs font-medium">${item.qty}</span>
+            <button onclick="updateQty(${p.id},1)" class="qty-btn w-8 h-8 flex items-center justify-center text-zinc-400"><iconify-icon icon="lucide:plus" class="text-xs"></iconify-icon></button>
+          </div>
+          <span class="text-sm font-medium">$${(p.price * item.qty).toFixed(2)}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const subtotal = getCartTotal();
+  const shipping = subtotal >= 99 ? 0 : 9.99;
+  const tax = subtotal * 0.08;
+  document.getElementById('cartSubtotal').textContent = '$' + subtotal.toFixed(2);
+  document.getElementById('cartShipping').textContent = shipping === 0 ? 'Free' : '$' + shipping.toFixed(2);
+  document.getElementById('cartTax').textContent = '$' + tax.toFixed(2);
+  document.getElementById('cartTotal').textContent = '$' + (subtotal + shipping + tax).toFixed(2);
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  const msg = document.getElementById('couponMsg');
+  msg.classList.remove('hidden');
+  if (code === 'LUXE20') { msg.textContent = '✓ Coupon applied! 20% discount.'; msg.className = 'text-xs mt-2 text-green-500'; }
+  else if (code === 'SAVE10') { msg.textContent = '✓ Coupon applied! $10 off.'; msg.className = 'text-xs mt-2 text-green-500'; }
+  else { msg.textContent = '✗ Invalid coupon code.'; msg.className = 'text-xs mt-2 text-red-400'; }
+}
+
+// ============ CHECKOUT ============
+function renderCheckout() {
+  const itemsEl = document.getElementById('checkoutItems');
+  itemsEl.innerHTML = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return '';
+    return `<div class="flex items-center gap-3"><img src="https://picsum.photos/seed/${p.image}/100/100.jpg" class="w-10 h-10 rounded-lg object-cover" alt="${p.name}"><div class="flex-1 min-w-0"><p class="text-xs text-zinc-300 truncate">${p.name}</p><p class="text-[10px] text-zinc-600">Qty: ${item.qty}</p></div><span class="text-xs font-medium">$${(p.price * item.qty).toFixed(2)}</span></div>`;
+  }).join('');
+  const subtotal = getCartTotal(); const tax = subtotal * 0.08;
+  document.getElementById('checkSubtotal').textContent = '$' + subtotal.toFixed(2);
+  document.getElementById('checkTax').textContent = '$' + tax.toFixed(2);
+  document.getElementById('checkTotal').textContent = '$' + (subtotal + tax).toFixed(2);
+}
+
+function placeOrder() {
+  if (cart.length === 0) { showToast('Your cart is empty!', 'error'); return; }
+  const orderId = 'LX-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  const total = getCartTotal() * 1.08;
+  document.getElementById('orderId').textContent = '#' + orderId;
+  document.getElementById('confirmTotal').textContent = '$' + total.toFixed(2);
+  document.getElementById('confirmationItems').innerHTML = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return '';
+    return `<div class="flex items-center justify-between"><span class="text-sm text-zinc-400">${p.name} × ${item.qty}</span><span class="text-sm text-zinc-300">$${(p.price * item.qty).toFixed(2)}</span></div>`;
+  }).join('');
+  cart = []; saveCart(); updateCartUI(); navigateTo('confirmation');
+}
+
+// ============ SEARCH ============
+function handleSearch(e) {
+  const query = e.target.value.trim().toLowerCase();
+  const results = document.getElementById('searchResults');
+  if (query.length < 2) { results.classList.add('hidden'); return; }
+  const matches = products.filter(p => p.name.toLowerCase().includes(query) || p.category.includes(query)).slice(0, 5);
+  if (matches.length === 0) { results.innerHTML = '<div class="p-4 text-sm text-zinc-500 text-center">No products found</div>'; }
+  else { results.innerHTML = matches.map(p => `<div onclick="openQuickView(${p.id});document.getElementById('searchResults').classList.add('hidden');" class="flex items-center gap-3 p-3 hover:bg-white/5 cursor-pointer transition-colors"><img src="https://picsum.photos/seed/${p.image}/80/80.jpg" class="w-10 h-10 rounded-lg object-cover" alt="${p.name}"><div class="flex-1 min-w-0"><p class="text-sm text-zinc-200 truncate">${p.name}</p><p class="text-xs text-zinc-500">${p.category}</p></div><span class="text-sm font-medium text-amber-500">$${p.price}</span></div>`).join(''); }
+  results.classList.remove('hidden');
+}
+
+document.addEventListener('click', function(e) { if (!e.target.closest('#searchInput') && !e.target.closest('#searchResults')) document.getElementById('searchResults').classList.add('hidden'); });
+
+// ============ MODALS ============
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.body.style.overflow = ''; }
+function switchAuthForm() { document.getElementById('loginForm').classList.toggle('hidden'); document.getElementById('signupForm').classList.toggle('hidden'); }
+
+// ============ TOAST ============
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  const icon = type === 'success' ? 'lucide:check-circle' : 'lucide:alert-circle';
+  const color = type === 'success' ? 'text-green-500' : 'text-red-400';
+  const border = type === 'success' ? 'border-green-500/20' : 'border-red-500/20';
+  toast.className = `toast flex items-center gap-3 bg-zinc-900 border ${border} rounded-xl px-4 py-3 shadow-2xl min-w-[280px]`;
+  toast.style.backdropFilter = 'blur(12px)';
+  toast.innerHTML = `<iconify-icon icon="${icon}" class="${color} text-lg shrink-0"></iconify-icon><span class="text-sm text-zinc-200">${message}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)'; toast.style.transition = 'all 0.3s ease'; setTimeout(() => toast.remove(), 300); }, 3000);
+}
+
+// ============ NEWSLETTER ============
+function subscribeNewsletter() {
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email || !email.includes('@')) { showToast('Please enter a valid email address.', 'error'); return; }
+  showToast('Welcome! You\'re now subscribed.', 'success');
+  document.getElementById('newsletterEmail').value = '';
+}
+
+// ============ COUNTDOWN ============
+function startCountdown() {
+  const end = new Date(); end.setDate(end.getDate() + 2); end.setHours(end.getHours() + 14);
+  function update() {
+    const diff = end - new Date(); if (diff <= 0) return;
+    document.getElementById('countDays').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+    document.getElementById('countHours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+    document.getElementById('countMins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+    document.getElementById('countSecs').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+  }
+  update(); setInterval(update, 1000);
+}
+
+// ============ NAVBAR SCROLL ============
+window.addEventListener('scroll', function() {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 50) { nav.style.borderBottom = '1px solid rgba(255,255,255,0.05)'; nav.style.background = 'rgba(9,9,11,0.95)'; }
+  else { nav.style.borderBottom = 'none'; nav.style.background = 'rgba(9,9,11,0.8)'; }
+});
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded', function() {
+  renderHomePage();
+  updateCartUI();
+  startCountdown();
+  document.querySelectorAll('.filter-cat').forEach(cb => updateCheckboxVisual(cb));
+});
+</script>
+
+</body>
+</html>
